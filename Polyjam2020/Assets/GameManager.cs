@@ -18,10 +18,6 @@ public class GameManager : MonoBehaviour
     {
         DistanceText.text = StepsApart.ToString();
         GameOverText.enabled = false;
-        Player1CorrectButton.onClick.AddListener(DecreaseDistance);
-        Player1WrongButton.onClick.AddListener(IncreaseDistance);
-        Player2CorrectButton.onClick.AddListener(DecreaseDistance);
-        Player2WrongButton.onClick.AddListener(IncreaseDistance);
     }
 
     private void DecreaseDistance()
