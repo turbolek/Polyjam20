@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     public int LosingDistance;
     public Button Player1CorrectButton;
     public Button Player1WrongButton;
+    public Button Player2CorrectButton;
+    public Button Player2WrongButton;
     public Text GameOverText;
     public Text DistanceText;
 
@@ -18,20 +20,18 @@ public class GameManager : MonoBehaviour
         GameOverText.enabled = false;
         Player1CorrectButton.onClick.AddListener(DecreaseDistance);
         Player1WrongButton.onClick.AddListener(IncreaseDistance);
+        Player2CorrectButton.onClick.AddListener(DecreaseDistance);
+        Player2WrongButton.onClick.AddListener(IncreaseDistance);
     }
 
     private void DecreaseDistance()
     {
-        StepsApart--;
-        DistanceText.text = StepsApart.ToString();
-        CheckEndGame();
+        ChangeDistance(-1);
     }
 
     private void IncreaseDistance()
     {
-        StepsApart++;
-        DistanceText.text = StepsApart.ToString();
-        CheckEndGame();
+        ChangeDistance(1);
     }
 
     private void CheckEndGame()
@@ -56,5 +56,16 @@ public class GameManager : MonoBehaviour
     {
         GameOverText.enabled = true;
         GameOverText.text = "We'll never talk to each other again :(";
+    }
+
+    private void ChangeDistance(int value)
+    {
+        StepsApart += value;
+        Player1CorrectButton.interactable = !Player1CorrectButton.interactable;
+        Player2WrongButton.interactable = !Player2WrongButton.interactable;
+        Player1WrongButton.interactable = !Player1WrongButton.interactable;
+        Player2CorrectButton.interactable = !Player2CorrectButton.interactable;
+        DistanceText.text = StepsApart.ToString();
+        CheckEndGame();
     }
 }
