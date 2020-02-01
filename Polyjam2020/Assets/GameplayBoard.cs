@@ -99,6 +99,8 @@ public class GameplayBoard : MonoBehaviour
 
                 Sprite correctSprite = GetSameSpriteFromPool(availableSprites, previousTrigger.Sprite);
                 _correctTrigger.SetSprite(correctSprite);
+                availableSprites.Remove(correctSprite);
+
                 _correctTrigger.SetColor(availableColors[0]);
                 availableColors.RemoveAt(0);
             }

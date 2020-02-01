@@ -122,8 +122,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdc714eaa45c97c4d86652a0d14a0fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Sprite: {fileID: 0}
-  Color: {r: 0, g: 0, b: 0, a: 0}
   CorrectAnswerMarker: {fileID: 6233139130684539626}
 --- !u!1 &6233139130684539626
 GameObject:
@@ -196,7 +194,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: dc4dfd441cda90d4f9b61980aaf1b80b, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
