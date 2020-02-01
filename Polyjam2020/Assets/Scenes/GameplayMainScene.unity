@@ -648,6 +648,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 368f68459f5dc694a945cf77e4320a14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PositiveDialogues:
+  - {fileID: 11400000, guid: 6326f6e48b2112449a8bb47d6a9e11ea, type: 2}
+  - {fileID: 11400000, guid: 5a314a7a58606a14b84bec9e97cf7148, type: 2}
+  NegativeDialogues:
+  - {fileID: 11400000, guid: 3c8a46a2cdb218649902f8ea98f5ebd9, type: 2}
+  - {fileID: 11400000, guid: 164cac177c4c18c48a6b0ebbeaa3a854, type: 2}
   Sequences:
   - RequiredScore: 5
     Player1Legs: {fileID: 0}

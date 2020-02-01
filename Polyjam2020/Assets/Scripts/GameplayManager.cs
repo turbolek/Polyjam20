@@ -6,6 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class GameplayManager : MonoBehaviour
 {
+    public List<Dialogue> PositiveDialogues;
+    private List<Dialogue> PositiveDialoguesCopy = new List<Dialogue>();
+    public List<Dialogue> NegativeDialogues;
+    private List<Dialogue> NegativeDialoguesCopy = new List<Dialogue>();
+
     public List<GameplaySequence> Sequences;
     private GameplaySequence _currentSequence;
 
@@ -24,6 +29,8 @@ public class GameplayManager : MonoBehaviour
     private Sprite[] _targetSprites;
     [SerializeField]
     private Color[] _targetColors;
+
+
 
     public void Init()
     {
@@ -52,6 +59,35 @@ public class GameplayManager : MonoBehaviour
 
     }
 
+    private List<Dialogue> GetRandomizedCopy(List<Dialogue> originalList)
+    {
+        List<Dialogue> randomizedList = new List<Dialogue>(originalList);
+        randomizedList = randomizedList.Shuffle();
+        return randomizedList;
+    }
+
+    private Dialogue GetRandomPositiveDialogue()
+    {
+        if (PositiveDialoguesCopy == null || PositiveDialoguesCopy.Count < 1)
+        {
+            PositiveDialoguesCopy = GetRandomizedCopy(PositiveDialogues);
+        }
+        Dialogue dialogue = PositiveDialoguesCopy[0];
+        PositiveDialoguesCopy.Remove(dialogue);
+        return dialogue;
+    }
+
+    private Dialogue GetRandomNegativeDialogue()
+    {
+        if (NegativeDialoguesCopy == null || NegativeDialoguesCopy.Count < 1)
+        {
+            NegativeDialoguesCopy = GetRandomizedCopy(NegativeDialogues);
+        }
+        Dialogue dialogue = NegativeDialoguesCopy[0];
+        NegativeDialoguesCopy.Remove(dialogue);
+        return dialogue;
+    }
+
     private IEnumerator SequenceEndCoroutine(GameplaySequence sequence)
     {
         GameplaySequence sequenceToPlay = null;
@@ -60,14 +96,16 @@ public class GameplayManager : MonoBehaviour
         if (sequence.Success)
         {
             Debug.Log("Sequence " + sequence.RequiredScore.ToString() + " won.");
-            yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.StartingBoard, "Nice sentence"));
-            yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.OtherBoard, "Nice answer"));
+            Dialogue dialogue = GetRandomPositiveDialogue();
+            yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.StartingBoard, dialogue.Sentence));
+            yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.OtherBoard, dialogue.Answer));
         }
         else
         {
             Debug.Log("Sequence " + sequence.RequiredScore.ToString() + " lost.");
-            yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.StartingBoard, "Mean sentence"));
-            yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.OtherBoard, "Mean answer"));
+            Dialogue dialogue = GetRandomNegativeDialogue();
+            yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.StartingBoard, dialogue.Sentence));
+            yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.OtherBoard, dialogue.Answer));
         }
 
 
