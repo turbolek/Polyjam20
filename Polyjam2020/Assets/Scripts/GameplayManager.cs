@@ -7,11 +7,15 @@ using UnityEngine.SceneManagement;
 public class GameplayManager : MonoBehaviour
 {
     public List<GameplaySequence> Sequences;
-    public int StartingSequenceIndex;
     private GameplaySequence _currentSequence;
 
     public Text SequenceScoreText;
     public Text GameOverText;
+
+    [SerializeField]
+    private LegsController _player1LegsController;
+    [SerializeField]
+    private LegsController _player2LegsController;
 
     private GameplayBoard _player1Board;
     private GameplayBoard _player2Board;
@@ -27,12 +31,14 @@ public class GameplayManager : MonoBehaviour
 
         InitGameplayBoards();
 
-        _currentSequence = Sequences[StartingSequenceIndex];
+        _currentSequence = GetNextSequence();
         foreach (GameplaySequence sequence in Sequences)
         {
             sequence.Init(_player1Board, _player2Board, SequenceScoreText);
         }
 
+        _player1LegsController.Init();
+        _player2LegsController.Init();
     }
 
     public void StartGame()
@@ -50,22 +56,30 @@ public class GameplayManager : MonoBehaviour
     {
         GameplaySequence sequenceToPlay = null;
 
+
         if (sequence.Success)
         {
             Debug.Log("Sequence " + sequence.RequiredScore.ToString() + " won.");
             yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.StartingBoard, "Nice sentence"));
             yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.OtherBoard, "Nice answer"));
-            sequenceToPlay = GetNextSequence();
         }
         else
         {
             Debug.Log("Sequence " + sequence.RequiredScore.ToString() + " lost.");
             yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.StartingBoard, "Mean sentence"));
             yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.OtherBoard, "Mean answer"));
-            sequenceToPlay = GetPreviousSequence();
         }
 
-        _currentSequence = sequenceToPlay;
+        sequenceToPlay = GetNextSequence();
+
+        LegsController legsToMove = sequence.Success ? GetLowestProgressPlayer() : GetHighestProgressPlayer();
+
+        legsToMove.StepToPosition(sequence.Success);
+
+        while (sequence.Legs.IsMoving)
+        {
+            yield return null;
+        }
 
         if (_currentSequence != null)
         {
@@ -86,22 +100,10 @@ public class GameplayManager : MonoBehaviour
 
     private GameplaySequence GetNextSequence()
     {
-        return GetOffsetSequence(1);
-    }
-
-    private GameplaySequence GetPreviousSequence()
-    {
-        return GetOffsetSequence(-1);
-    }
-
-    private GameplaySequence GetOffsetSequence(int offset)
-    {
-        int currentSequenceIndex = Sequences.FindIndex(s => s == _currentSequence);
-        int newIndex = currentSequenceIndex + offset;
-
-        if (newIndex >= 0 && newIndex < Sequences.Count)
+        LegsController lowestProgressLegsController = GetLowestProgressPlayer();
+        if (lowestProgressLegsController.Progress - 1 < Sequences.Count)
         {
-            return Sequences[newIndex];
+            return Sequences[lowestProgressLegsController.Progress - 1];
         }
         return null;
     }
@@ -110,11 +112,11 @@ public class GameplayManager : MonoBehaviour
     {
         GameObject player1BoardGO = GameObject.FindGameObjectWithTag("Player1Board");
         _player1Board = player1BoardGO.GetComponent<GameplayBoard>();
-        _player1Board.Init(_targetSprites, _targetColors);
+        _player1Board.Init(_targetSprites, _targetColors, _player1LegsController);
 
         GameObject player2BoardGO = GameObject.FindGameObjectWithTag("Player2Board");
         _player2Board = player2BoardGO.GetComponent<GameplayBoard>();
-        _player2Board.Init(_targetSprites, _targetColors);
+        _player2Board.Init(_targetSprites, _targetColors, _player2LegsController);
     }
 
     private void EndGame(bool success)
@@ -139,5 +141,29 @@ public class GameplayManager : MonoBehaviour
     {
         GameOverText.enabled = true;
         GameOverText.text = "We'll never talk to each other again :(";
+    }
+
+    private LegsController GetLowestProgressPlayer()
+    {
+        if (_player1LegsController.Progress >= _player2LegsController.Progress)
+        {
+            return _player1LegsController;
+        }
+        else
+        {
+            return _player2LegsController;
+        }
+    }
+
+    private LegsController GetHighestProgressPlayer()
+    {
+        if (_player1LegsController.Progress >= _player2LegsController.Progress)
+        {
+            return _player1LegsController;
+        }
+        else
+        {
+            return _player2LegsController;
+        }
     }
 }

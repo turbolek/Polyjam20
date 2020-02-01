@@ -25,10 +25,14 @@ public class GameplayBoard : MonoBehaviour
 
     private TargetTrigger _correctTrigger;
 
-    public void Init(Sprite[] targetSprites, Color[] targetColors)
+    [HideInInspector]
+    public LegsController Legs;
+
+    public void Init(Sprite[] targetSprites, Color[] targetColors, LegsController legsController)
     {
         _targetSprites = targetSprites;
         _targetColors = targetColors;
+        Legs = legsController;
 
         GameObject playerGameObject = Instantiate(_playerPrefab, _gameplayParent.transform);
         playerGameObject.transform.position = _playerSpawnPoint.position;
