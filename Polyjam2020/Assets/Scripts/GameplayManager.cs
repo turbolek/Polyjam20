@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameplayManager : MonoBehaviour
 {
     public int StepsApart;
     public int LosingDistance;
@@ -19,28 +19,18 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Color[] _targetColors;
 
-    private void Start()
-    {
-        StartCoroutine(InitCoroutine());
-    }
-
-    private IEnumerator InitCoroutine()
+    public void Init()
     {
         DistanceText.text = StepsApart.ToString();
         GameOverText.enabled = false;
 
-        AsyncOperation loadingOperation = SceneManager.LoadSceneAsync("GameplayBoardScene", LoadSceneMode.Additive);
-
-        while (!loadingOperation.isDone)
-        {
-            yield return null;
-        }
-
-        yield return null;
-
         InitGameplayBoards();
         GameplayBoard.BoardFinished += OnBoardFinished;
 
+    }
+
+    public void StartGame()
+    {
         _player1Board.Activate(null);
     }
 
