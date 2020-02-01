@@ -10,8 +10,8 @@ public class GameplayManager : MonoBehaviour
     public int StartingSequenceIndex;
     private GameplaySequence _currentSequence;
 
+    public Text SequenceScoreText;
     public Text GameOverText;
-    public Text DistanceText;
 
     private GameplayBoard _player1Board;
     private GameplayBoard _player2Board;
@@ -30,7 +30,7 @@ public class GameplayManager : MonoBehaviour
         _currentSequence = Sequences[StartingSequenceIndex];
         foreach (GameplaySequence sequence in Sequences)
         {
-            sequence.Init(_player1Board, _player2Board);
+            sequence.Init(_player1Board, _player2Board, SequenceScoreText);
         }
 
     }
@@ -42,13 +42,24 @@ public class GameplayManager : MonoBehaviour
 
     private void OnGameplaySequenceFinished(GameplaySequence sequence)
     {
+        StartCoroutine(SequenceEndCoroutine(sequence));
+
+    }
+
+    private IEnumerator SequenceEndCoroutine(GameplaySequence sequence)
+    {
         GameplaySequence sequenceToPlay = null;
+
         if (sequence.Success)
         {
+            yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.StartingBoard, "Nice sentence"));
+            yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.OtherBoard, "Nice answer"));
             sequenceToPlay = GetNextSequence();
         }
         else
         {
+            yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.StartingBoard, "Mean sentence"));
+            yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.OtherBoard, "Mean answer"));
             sequenceToPlay = GetPreviousSequence();
         }
 
@@ -61,6 +72,13 @@ public class GameplayManager : MonoBehaviour
             EndGame(sequence.Success);
         }
     }
+
+    private IEnumerator DisplayBoardTextCoroutine(GameplayBoard board, string text)
+    {
+        board.DisplayText(text);
+        yield return new WaitForSeconds(2f);
+    }
+
 
     private GameplaySequence GetNextSequence()
     {

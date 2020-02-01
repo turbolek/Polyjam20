@@ -1,24 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.UI;
 
 [Serializable]
 public class GameplaySequence
 {
-    public enum StartingBoardType
+    public enum BoardType
     {
         Payer1 = 0,
         Player2 = 1
     }
 
-    public StartingBoardType StartingBoard;
+    public BoardType StartingBoardType;
 
     private Action<GameplaySequence> _onFinish;
     public int RequiredScore;
     private int _currentScore = 0;
+    private Text _sequenceScoreText;
 
-    private GameplayBoard _player1Board;
-    private GameplayBoard _player2Board;
+    [HideInInspector]
+    public GameplayBoard Player1Board;
+    [HideInInspector]
+    public GameplayBoard Player2Board;
+    [HideInInspector]
+    public GameplayBoard StartingBoard;
+    [HideInInspector]
+    public GameplayBoard OtherBoard;
 
     [HideInInspector]
     public bool Success;
@@ -26,31 +34,40 @@ public class GameplaySequence
     public void Start(Action<GameplaySequence> onFinish)
     {
         //NOT A MONOBEHAVIOUR START METHOD
+        _currentScore = 0;
         _onFinish = onFinish;
-        GetStartingBoard().Activate(null);
+        SetBoards();
+        StartingBoard.Activate(null);
         GameplayBoard.BoardFinished += OnBoardFinished;
+        _sequenceScoreText.text = _currentScore.ToString();
     }
 
-    public void Init(GameplayBoard player1Board, GameplayBoard player2Board)
+    private void SetBoards()
     {
-        _player1Board = player1Board;
-        _player2Board = player2Board;
-    }
-
-    private GameplayBoard GetStartingBoard()
-    {
-        if (StartingBoard == StartingBoardType.Payer1)
+        if (StartingBoardType == BoardType.Payer1)
         {
-            return _player1Board;
+            StartingBoard = Player1Board;
+            OtherBoard = Player2Board;
         }
+        else
+        {
+            StartingBoard = Player2Board;
+            OtherBoard = Player1Board;
+        }
+    }
 
-        return _player2Board;
+    public void Init(GameplayBoard player1Board, GameplayBoard player2Board, Text sequenceScoreText)
+    {
+        Player1Board = player1Board;
+        Player2Board = player2Board;
+        _sequenceScoreText = sequenceScoreText;
     }
 
     private void OnBoardFinished(GameplayBoard board, TargetTrigger trigger, bool success)
     {
         if (success)
         {
+            _sequenceScoreText.text = _currentScore.ToString();
             _currentScore++;
             CheckWin();
         }
@@ -72,15 +89,15 @@ public class GameplaySequence
 
     private void SwitchBoards(GameplayBoard finishedBoard, TargetTrigger trigger)
     {
-        if (finishedBoard == _player1Board)
+        if (finishedBoard == Player1Board)
         {
-            _player1Board.Deactivate();
-            _player2Board.Activate(trigger);
+            Player1Board.Deactivate();
+            Player2Board.Activate(trigger);
         }
         else
         {
-            _player2Board.Deactivate();
-            _player1Board.Activate(trigger);
+            Player2Board.Deactivate();
+            Player1Board.Activate(trigger);
         }
     }
 

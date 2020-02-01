@@ -157,8 +157,6 @@ public class GameplayBoard : MonoBehaviour
     private void FinishBoard(bool success, TargetTrigger trigger)
     {
         BoardFinished?.Invoke(this, trigger, success);
-        string sentence = success ? "Very nice sentence that makes everyone happy :)" : "Not very nice sentence that makes everyone sad :(";
-        DisplayText(sentence);
     }
 
     private Color GetSameColorFromPool(List<Color> colorsPool, Color referenceColor)
@@ -185,7 +183,7 @@ public class GameplayBoard : MonoBehaviour
         return null;
     }
 
-    private void DisplayText(string text)
+    public void DisplayText(string text)
     {
         _dialogueText.text = text;
     }
