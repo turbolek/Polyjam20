@@ -14,6 +14,11 @@ public class GameManager : MonoBehaviour
     private GameplayBoard _player1Board;
     private GameplayBoard _player2Board;
 
+    [SerializeField]
+    private Sprite[] _targetSprites;
+    [SerializeField]
+    private Color[] _targetColors;
+
     private void Start()
     {
         StartCoroutine(InitCoroutine());
@@ -36,18 +41,18 @@ public class GameManager : MonoBehaviour
         InitGameplayBoards();
         GameplayBoard.BoardFinished += OnBoardFinished;
 
-        _player1Board.Activate();
+        _player1Board.Activate(null);
     }
 
     private void InitGameplayBoards()
     {
         GameObject player1BoardGO = GameObject.FindGameObjectWithTag("Player1Board");
         _player1Board = player1BoardGO.GetComponent<GameplayBoard>();
-        _player1Board.Init();
+        _player1Board.Init(_targetSprites, _targetColors);
 
         GameObject player2BoardGO = GameObject.FindGameObjectWithTag("Player2Board");
         _player2Board = player2BoardGO.GetComponent<GameplayBoard>();
-        _player2Board.Init();
+        _player2Board.Init(_targetSprites, _targetColors);
     }
 
     private void DecreaseDistance()
@@ -91,7 +96,7 @@ public class GameManager : MonoBehaviour
         CheckEndGame();
     }
 
-    private void OnBoardFinished(GameplayBoard board, bool success)
+    private void OnBoardFinished(GameplayBoard board, TargetTrigger trigger, bool success)
     {
         if (success)
         {
@@ -102,20 +107,20 @@ public class GameManager : MonoBehaviour
             IncreaseDistance();
         }
 
-        SwitchBoards(board);
+        SwitchBoards(board, trigger);
     }
 
-    private void SwitchBoards(GameplayBoard finishedBoard)
+    private void SwitchBoards(GameplayBoard finishedBoard, TargetTrigger trigger)
     {
         if (finishedBoard == _player1Board)
         {
             _player1Board.Deactivate();
-            _player2Board.Activate();
+            _player2Board.Activate(trigger);
         }
         else
         {
             _player2Board.Deactivate();
-            _player1Board.Activate();
+            _player1Board.Activate(trigger);
         }
     }
 }
