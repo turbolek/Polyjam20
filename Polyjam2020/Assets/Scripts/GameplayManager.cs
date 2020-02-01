@@ -70,7 +70,6 @@ public class GameplayManager : MonoBehaviour
             yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.OtherBoard, "Mean answer"));
         }
 
-        sequenceToPlay = GetNextSequence();
 
         LegsController legsToMove = sequence.Success ? GetLowestProgressPlayer() : GetHighestProgressPlayer();
 
@@ -80,6 +79,8 @@ public class GameplayManager : MonoBehaviour
         {
             yield return null;
         }
+
+        _currentSequence = GetNextSequence();
 
         if (_currentSequence != null)
         {
@@ -101,7 +102,8 @@ public class GameplayManager : MonoBehaviour
     private GameplaySequence GetNextSequence()
     {
         LegsController lowestProgressLegsController = GetLowestProgressPlayer();
-        if (lowestProgressLegsController.Progress - 1 < Sequences.Count)
+        int newIndex = lowestProgressLegsController.Progress - 1;
+        if (newIndex >= 0 && newIndex < Sequences.Count)
         {
             return Sequences[lowestProgressLegsController.Progress - 1];
         }
