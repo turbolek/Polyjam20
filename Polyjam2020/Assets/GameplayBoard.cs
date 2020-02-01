@@ -122,6 +122,7 @@ public class GameplayBoard : MonoBehaviour
             availableSprites.RemoveAt(i);
         }
 
+        _player.ResetSpeed();
         _player.transform.position = _playerSpawnPoint.position;
     }
 

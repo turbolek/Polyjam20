@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float Velocity = 6f;
+    public float Acceleration = 6f;
+    public float MaxSpeed = 30f;
     private Rigidbody2D _rigidbody2d;
     private SpriteRenderer _spriteRenderer;
     private Sprite _originalSprite;
@@ -31,7 +32,11 @@ public class PlayerController : MonoBehaviour
             x = 1f;
         }
 
-        _rigidbody2d.transform.Translate(Vector2.right * x * Velocity * Time.deltaTime);
+        //_rigidbody2d.AddForce(Vector2.right * x * Time.deltaTime * Acceleration);
+        _rigidbody2d.velocity += (Vector2.right * x * Time.deltaTime * Acceleration);
+        _rigidbody2d.velocity = new Vector2(Mathf.Clamp(_rigidbody2d.velocity.x, -MaxSpeed, MaxSpeed), _rigidbody2d.velocity.y);
+
+        Debug.Log("Velocity: " + _rigidbody2d.velocity.magnitude);
     }
 
     public void SetSprite(Sprite sprite, Color color)
@@ -46,5 +51,10 @@ public class PlayerController : MonoBehaviour
         }
 
         _spriteRenderer.color = color;
+    }
+
+    public void ResetSpeed()
+    {
+        _rigidbody2d.velocity = Vector2.zero;
     }
 }
