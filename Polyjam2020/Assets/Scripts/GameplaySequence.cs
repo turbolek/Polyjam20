@@ -74,8 +74,8 @@ public class GameplaySequence
 
         if (success)
         {
-            _sequenceScoreText.text = _currentScore.ToString();
             _currentScore++;
+            _sequenceScoreText.text = _currentScore.ToString();
             CheckWin();
         }
         else
