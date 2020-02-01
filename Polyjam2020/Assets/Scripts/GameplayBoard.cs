@@ -25,10 +25,14 @@ public class GameplayBoard : MonoBehaviour
 
     private TargetTrigger _correctTrigger;
 
-    public void Init(Sprite[] targetSprites, Color[] targetColors)
+    [HideInInspector]
+    public LegsController Legs;
+
+    public void Init(Sprite[] targetSprites, Color[] targetColors, LegsController legsController)
     {
         _targetSprites = targetSprites;
         _targetColors = targetColors;
+        Legs = legsController;
 
         GameObject playerGameObject = Instantiate(_playerPrefab, _gameplayParent.transform);
         playerGameObject.transform.position = _playerSpawnPoint.position;
@@ -82,41 +86,44 @@ public class GameplayBoard : MonoBehaviour
         List<Color> availableColors = new List<Color>(_targetColors).Shuffle();
 
 
-        if (previousTrigger != null)
+        if (previousTrigger == null)
         {
-            _correctTrigger = triggersToSet[0];
-            _correctTrigger.CorrectAnswerMarker.SetActive(true);
-            triggersToSet.RemoveAt(0);
+            previousTrigger = _triggers[0];
+            previousTrigger.SetSprite(availableSprites[0]);
+            previousTrigger.SetColor(availableColors[0]);
+        }
 
-            if (UnityEngine.Random.Range(0f, 1f) < 0.5f)
-            {
-                Sprite previousSprite = GetSameSpriteFromPool(availableSprites, previousTrigger.Sprite);
-                availableSprites.Remove(previousSprite);
+        _player.SetSprite(previousTrigger.Sprite, previousTrigger.Color);
 
-                Color correctColor = GetSameColorFromPool(availableColors, previousTrigger.Color);
-                _correctTrigger.SetColor(correctColor);
-                availableColors.Remove(correctColor);
+        _correctTrigger = triggersToSet[0];
+        _correctTrigger.CorrectAnswerMarker.SetActive(true);
+        triggersToSet.RemoveAt(0);
 
-                _correctTrigger.SetSprite(availableSprites[0]);
-                availableSprites.RemoveAt(0);
-            }
-            else
-            {
-                Color previousColor = GetSameColorFromPool(availableColors, previousTrigger.Color);
-                availableColors.Remove(previousColor);
+        if (UnityEngine.Random.Range(0f, 1f) < 0.5f)
+        {
+            Sprite previousSprite = GetSameSpriteFromPool(availableSprites, previousTrigger.Sprite);
+            availableSprites.Remove(previousSprite);
 
-                Sprite correctSprite = GetSameSpriteFromPool(availableSprites, previousTrigger.Sprite);
-                _correctTrigger.SetSprite(correctSprite);
-                availableSprites.Remove(correctSprite);
+            Color correctColor = GetSameColorFromPool(availableColors, previousTrigger.Color);
+            _correctTrigger.SetColor(correctColor);
+            availableColors.Remove(correctColor);
 
-                _correctTrigger.SetColor(availableColors[0]);
-                availableColors.RemoveAt(0);
-            }
+            _correctTrigger.SetSprite(availableSprites[0]);
+            availableSprites.RemoveAt(0);
         }
         else
         {
-            _correctTrigger = null;
+            Color previousColor = GetSameColorFromPool(availableColors, previousTrigger.Color);
+            availableColors.Remove(previousColor);
+
+            Sprite correctSprite = GetSameSpriteFromPool(availableSprites, previousTrigger.Sprite);
+            _correctTrigger.SetSprite(correctSprite);
+            availableSprites.Remove(correctSprite);
+
+            _correctTrigger.SetColor(availableColors[0]);
+            availableColors.RemoveAt(0);
         }
+
 
         for (int i = triggersToSet.Count - 1; i >= 0; i--)
         {
@@ -133,16 +140,18 @@ public class GameplayBoard : MonoBehaviour
         DisplayText("");
     }
 
+    public void Activate(Sprite sprite, Color color)
+    {
+        Activate(null);
+        _player.SetSprite(sprite, color);
+    }
+
     public void Activate(TargetTrigger previousTrigger)
     {
-        Sprite playerSprite = previousTrigger == null ? null : previousTrigger.Sprite;
-        Color playerColor = previousTrigger == null ? Color.white : previousTrigger.Color;
-
-        _player.SetSprite(playerSprite, playerColor);
-
         Restart(previousTrigger);
         gameObject.SetActive(true);
     }
+
 
     public void Deactivate()
     {

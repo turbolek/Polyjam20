@@ -6,23 +6,24 @@ using UnityEngine.UI;
 [Serializable]
 public class GameplaySequence
 {
-    public enum BoardType
-    {
-        Payer1 = 0,
-        Player2 = 1
-    }
-
-    public BoardType StartingBoardType;
-
     private Action<GameplaySequence> _onFinish;
     public int RequiredScore;
     private int _currentScore = 0;
     private Text _sequenceScoreText;
 
     [HideInInspector]
-    public GameplayBoard Player1Board;
+    public LegsController Player1Legs;
     [HideInInspector]
-    public GameplayBoard Player2Board;
+    public LegsController Player2Legs;
+    [HideInInspector]
+    public LegsController Legs
+    {
+        get
+        {
+            return StartingBoard.Legs;
+        }
+    }
+
     [HideInInspector]
     public GameplayBoard StartingBoard;
     [HideInInspector]
@@ -36,10 +37,9 @@ public class GameplaySequence
         //NOT A MONOBEHAVIOUR START METHOD
         _currentScore = 0;
         _onFinish = onFinish;
-        SetBoards();
 
-        Player1Board.DisplayText("");
-        Player2Board.DisplayText("");
+        StartingBoard.DisplayText("");
+        OtherBoard.DisplayText("");
 
         StartingBoard.Activate(null);
         GameplayBoard.BoardFinished += OnBoardFinished;
@@ -47,24 +47,10 @@ public class GameplaySequence
         Debug.Log("Starting sequence " + RequiredScore.ToString());
     }
 
-    private void SetBoards()
+    public void Init(GameplayBoard startingBoard, GameplayBoard otherBoard, Text sequenceScoreText)
     {
-        if (StartingBoardType == BoardType.Payer1)
-        {
-            StartingBoard = Player1Board;
-            OtherBoard = Player2Board;
-        }
-        else
-        {
-            StartingBoard = Player2Board;
-            OtherBoard = Player1Board;
-        }
-    }
-
-    public void Init(GameplayBoard player1Board, GameplayBoard player2Board, Text sequenceScoreText)
-    {
-        Player1Board = player1Board;
-        Player2Board = player2Board;
+        StartingBoard = startingBoard;
+        OtherBoard = otherBoard;
         _sequenceScoreText = sequenceScoreText;
     }
 
@@ -74,8 +60,8 @@ public class GameplaySequence
 
         if (success)
         {
-            _sequenceScoreText.text = _currentScore.ToString();
             _currentScore++;
+            _sequenceScoreText.text = _currentScore.ToString();
             CheckWin();
         }
         else
@@ -95,15 +81,15 @@ public class GameplaySequence
 
     private void SwitchBoards(GameplayBoard finishedBoard, TargetTrigger trigger)
     {
-        if (finishedBoard == Player1Board)
+        if (finishedBoard == StartingBoard)
         {
-            Player1Board.Deactivate();
-            Player2Board.Activate(trigger);
+            StartingBoard.Deactivate();
+            OtherBoard.Activate(trigger);
         }
         else
         {
-            Player2Board.Deactivate();
-            Player1Board.Activate(trigger);
+            OtherBoard.Deactivate();
+            StartingBoard.Activate(trigger);
         }
     }
 
@@ -111,8 +97,8 @@ public class GameplaySequence
     {
         Success = success;
         GameplayBoard.BoardFinished -= OnBoardFinished;
-        Player1Board.Deactivate();
-        Player2Board.Deactivate();
+        StartingBoard.Deactivate();
+        OtherBoard.Deactivate();
         _onFinish.Invoke(this);
 
     }
