@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator LoadScenesCoroutine()
     {
-        yield return StartCoroutine(LoadSceneCoroutine("MainScene"));
+        yield return StartCoroutine(LoadSceneCoroutine("GameplayMainScene"));
         yield return StartCoroutine(LoadSceneCoroutine("GameplayBoardScene"));
         _gameplayManager = GameObject.FindObjectOfType<GameplayManager>();
         _gameplayManager.Init();

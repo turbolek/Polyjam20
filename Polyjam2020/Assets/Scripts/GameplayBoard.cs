@@ -2,9 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameplayBoard : MonoBehaviour
 {
+    [SerializeField]
+    private Text _dialogueText;
+    [SerializeField]
+    private GameObject _gameplayParent;
     [SerializeField]
     private GameObject _playerPrefab;
     [SerializeField]
@@ -25,7 +30,7 @@ public class GameplayBoard : MonoBehaviour
         _targetSprites = targetSprites;
         _targetColors = targetColors;
 
-        GameObject playerGameObject = Instantiate(_playerPrefab, transform);
+        GameObject playerGameObject = Instantiate(_playerPrefab, _gameplayParent.transform);
         playerGameObject.transform.position = _playerSpawnPoint.position;
 
         _shredder = GetComponentInChildren<PlayerShredder>();
@@ -54,7 +59,7 @@ public class GameplayBoard : MonoBehaviour
     {
         if (IsParentOfTrigger(trigger))
         {
-            BoardFinished?.Invoke(this, trigger, trigger == _correctTrigger || _correctTrigger == null);
+            FinishBoard(trigger == _correctTrigger || _correctTrigger == null, trigger);
         }
     }
 
@@ -124,6 +129,8 @@ public class GameplayBoard : MonoBehaviour
 
         _player.ResetSpeed();
         _player.transform.position = _playerSpawnPoint.position;
+        ShowGameplayParent(true);
+        DisplayText("");
     }
 
     public void Activate(TargetTrigger previousTrigger)
@@ -139,12 +146,19 @@ public class GameplayBoard : MonoBehaviour
 
     public void Deactivate()
     {
-        gameObject.SetActive(false);
+        ShowGameplayParent(false);
     }
 
     private void OnShredderEntered()
     {
-        BoardFinished?.Invoke(this, null, false);
+        FinishBoard(false, null);
+    }
+
+    private void FinishBoard(bool success, TargetTrigger trigger)
+    {
+        BoardFinished?.Invoke(this, trigger, false);
+        string sentence = success ? "Very nice sentence that makes everyone happy :)" : "Not very nice sentence that makes everyone sad :(";
+        DisplayText(sentence);
     }
 
     private Color GetSameColorFromPool(List<Color> colorsPool, Color referenceColor)
@@ -169,5 +183,15 @@ public class GameplayBoard : MonoBehaviour
             }
         }
         return null;
+    }
+
+    private void DisplayText(string text)
+    {
+        _dialogueText.text = text;
+    }
+
+    private void ShowGameplayParent(bool show)
+    {
+        _gameplayParent.SetActive(show);
     }
 }
