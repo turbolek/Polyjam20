@@ -9,8 +9,13 @@ public class TargetTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("Trigger");
         TriggerEntered?.Invoke(this);
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("Trigger");
+    }
 
 }

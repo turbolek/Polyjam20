@@ -141,6 +141,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player2GameplayBoard
       objectReference: {fileID: 0}
+    - target: {fileID: 1533891632974526274, guid: d15a833660db6d14f9018f5aa1f140aa,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player2Board
+      objectReference: {fileID: 0}
     - target: {fileID: 1533891632974526276, guid: d15a833660db6d14f9018f5aa1f140aa,
         type: 3}
       propertyPath: m_LocalPosition.x

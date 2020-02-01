@@ -5,18 +5,24 @@ using UnityEngine;
 
 public class GameplayBoard : MonoBehaviour
 {
-    private Vector2 _playerOriginPosition;
+    [SerializeField]
+    private GameObject _playerPrefab;
+    [SerializeField]
+    private Transform _playerSpawnPoint;
+
     private PlayerController _player;
     private TargetTrigger[] _triggers;
-    public static Action<GameplayBoard> BoardFinished;
+    public static Action<GameplayBoard, bool> BoardFinished;
 
-    // Start is called before the first frame update
-    void Start()
+    public void Init()
     {
-        _player = GetComponentInChildren<PlayerController>();
-        _playerOriginPosition = _player.transform.position;
+        GameObject playerGameObject = Instantiate(_playerPrefab, transform);
+        playerGameObject.transform.position = _playerSpawnPoint.position;
+
+        _player = playerGameObject.GetComponent<PlayerController>();
         _triggers = GetComponentsInChildren<TargetTrigger>();
         TargetTrigger.TriggerEntered += OnTriggerEntered;
+        Deactivate();
     }
 
     private void OnDestroy()
@@ -28,7 +34,7 @@ public class GameplayBoard : MonoBehaviour
     {
         if (IsParentOfTrigger(trigger))
         {
-            BoardFinished?.Invoke(this);
+            BoardFinished?.Invoke(this, true);
         }
     }
 
@@ -46,6 +52,17 @@ public class GameplayBoard : MonoBehaviour
 
     public void Restart()
     {
-        _player.transform.position = _playerOriginPosition;
+        _player.transform.position = _playerSpawnPoint.position;
+    }
+
+    public void Activate()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Deactivate()
+    {
+        gameObject.SetActive(false);
+        Restart();
     }
 }
