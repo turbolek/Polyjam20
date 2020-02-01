@@ -21,10 +21,13 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator LoadScenesCoroutine()
     {
+        _startButton.interactable = false;
         yield return StartCoroutine(LoadSceneCoroutine("GameplayMainScene"));
         yield return StartCoroutine(LoadSceneCoroutine("GameplayBoardScene"));
-        _gameplayManager = GameObject.FindObjectOfType<GameplayManager>();
+
+        _gameplayManager = FindObjectOfType<GameplayManager>();
         _gameplayManager.Init();
+        _startButton.interactable = true;
     }
 
     private IEnumerator LoadSceneCoroutine(string sceneName)
@@ -39,6 +42,9 @@ public class GameManager : MonoBehaviour
     private void StartGame()
     {
         _mainMenuCanvasGroup.alpha = 0f;
-        _gameplayManager.StartGame();
+        if (_gameplayManager != null)
+        {
+            _gameplayManager.StartGame();
+        }
     }
 }

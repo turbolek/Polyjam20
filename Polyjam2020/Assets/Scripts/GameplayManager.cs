@@ -6,8 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class GameplayManager : MonoBehaviour
 {
-    public int StepsApart;
-    public int LosingDistance;
+    public List<GameplaySequence> Sequences;
+    public int StartingSequenceIndex;
+    private GameplaySequence _currentSequence;
+
     public Text GameOverText;
     public Text DistanceText;
 
@@ -21,17 +23,65 @@ public class GameplayManager : MonoBehaviour
 
     public void Init()
     {
-        DistanceText.text = StepsApart.ToString();
         GameOverText.enabled = false;
 
         InitGameplayBoards();
-        GameplayBoard.BoardFinished += OnBoardFinished;
+
+        _currentSequence = Sequences[StartingSequenceIndex];
+        foreach (GameplaySequence sequence in Sequences)
+        {
+            sequence.Init(_player1Board, _player2Board);
+        }
 
     }
 
     public void StartGame()
     {
-        _player1Board.Activate(null);
+        _currentSequence.Start(OnGameplaySequenceFinished);
+    }
+
+    private void OnGameplaySequenceFinished(GameplaySequence sequence)
+    {
+        GameplaySequence sequenceToPlay = null;
+        if (sequence.Success)
+        {
+            sequenceToPlay = GetNextSequence();
+        }
+        else
+        {
+            sequenceToPlay = GetPreviousSequence();
+        }
+
+        if (sequenceToPlay != null)
+        {
+            sequenceToPlay.Start(OnGameplaySequenceFinished);
+        }
+        else
+        {
+            EndGame(sequence.Success);
+        }
+    }
+
+    private GameplaySequence GetNextSequence()
+    {
+        return GetOffsetSequence(1);
+    }
+
+    private GameplaySequence GetPreviousSequence()
+    {
+        return GetOffsetSequence(-1);
+    }
+
+    private GameplaySequence GetOffsetSequence(int offset)
+    {
+        int currentSequenceIndex = Sequences.FindIndex(s => s == _currentSequence);
+        int newIndex = currentSequenceIndex + offset;
+
+        if (newIndex >= 0 && newIndex < Sequences.Count)
+        {
+            return Sequences[newIndex];
+        }
+        return null;
     }
 
     private void InitGameplayBoards()
@@ -45,23 +95,13 @@ public class GameplayManager : MonoBehaviour
         _player2Board.Init(_targetSprites, _targetColors);
     }
 
-    private void DecreaseDistance()
+    private void EndGame(bool success)
     {
-        ChangeDistance(-1);
-    }
-
-    private void IncreaseDistance()
-    {
-        ChangeDistance(1);
-    }
-
-    private void CheckEndGame()
-    {
-        if (StepsApart <= 0)
+        if (success)
         {
             WinGame();
         }
-        else if (StepsApart >= LosingDistance)
+        else
         {
             LoseGame();
         }
@@ -77,40 +117,5 @@ public class GameplayManager : MonoBehaviour
     {
         GameOverText.enabled = true;
         GameOverText.text = "We'll never talk to each other again :(";
-    }
-
-    private void ChangeDistance(int value)
-    {
-        StepsApart += value;
-        DistanceText.text = StepsApart.ToString();
-        CheckEndGame();
-    }
-
-    private void OnBoardFinished(GameplayBoard board, TargetTrigger trigger, bool success)
-    {
-        if (success)
-        {
-            DecreaseDistance();
-        }
-        else
-        {
-            IncreaseDistance();
-        }
-
-        SwitchBoards(board, trigger);
-    }
-
-    private void SwitchBoards(GameplayBoard finishedBoard, TargetTrigger trigger)
-    {
-        if (finishedBoard == _player1Board)
-        {
-            _player1Board.Deactivate();
-            _player2Board.Activate(trigger);
-        }
-        else
-        {
-            _player2Board.Deactivate();
-            _player1Board.Activate(trigger);
-        }
     }
 }

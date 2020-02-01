@@ -501,8 +501,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 368f68459f5dc694a945cf77e4320a14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StepsApart: 5
-  LosingDistance: 10
+  Sequences:
+  - StartingBoard: 1
+    RequiredScore: 5
+    Success: 0
+  - StartingBoard: 0
+    RequiredScore: 10
+    Success: 0
+  - StartingBoard: 1
+    RequiredScore: 15
+    Success: 0
+  StartingSequenceIndex: 0
   GameOverText: {fileID: 736461158}
   DistanceText: {fileID: 1820728598}
   _targetSprites:

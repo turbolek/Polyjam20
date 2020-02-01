@@ -156,7 +156,7 @@ public class GameplayBoard : MonoBehaviour
 
     private void FinishBoard(bool success, TargetTrigger trigger)
     {
-        BoardFinished?.Invoke(this, trigger, false);
+        BoardFinished?.Invoke(this, trigger, success);
         string sentence = success ? "Very nice sentence that makes everyone happy :)" : "Not very nice sentence that makes everyone sad :(";
         DisplayText(sentence);
     }
