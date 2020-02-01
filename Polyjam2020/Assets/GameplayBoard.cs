@@ -30,7 +30,10 @@ public class GameplayBoard : MonoBehaviour
 
         _shredder = GetComponentInChildren<PlayerShredder>();
         _shredder.ShredderEntered += OnShredderEntered;
+
         _player = playerGameObject.GetComponent<PlayerController>();
+        _player.Init();
+
         _triggers = GetComponentsInChildren<TargetTrigger>();
 
         foreach (TargetTrigger trigger in _triggers)
@@ -124,6 +127,11 @@ public class GameplayBoard : MonoBehaviour
 
     public void Activate(TargetTrigger previousTrigger)
     {
+        Sprite playerSprite = previousTrigger == null ? null : previousTrigger.Sprite;
+        Color playerColor = previousTrigger == null ? Color.white : previousTrigger.Color;
+
+        _player.SetSprite(playerSprite, playerColor);
+
         Restart(previousTrigger);
         gameObject.SetActive(true);
     }
