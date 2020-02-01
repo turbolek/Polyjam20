@@ -12,6 +12,7 @@ public class GameplayBoard : MonoBehaviour
 
     private PlayerController _player;
     private TargetTrigger[] _triggers;
+    private PlayerShredder _shredder;
     public static Action<GameplayBoard, bool> BoardFinished;
 
     public void Init()
@@ -19,6 +20,8 @@ public class GameplayBoard : MonoBehaviour
         GameObject playerGameObject = Instantiate(_playerPrefab, transform);
         playerGameObject.transform.position = _playerSpawnPoint.position;
 
+        _shredder = GetComponentInChildren<PlayerShredder>();
+        _shredder.ShredderEntered += OnShredderEntered;
         _player = playerGameObject.GetComponent<PlayerController>();
         _triggers = GetComponentsInChildren<TargetTrigger>();
         TargetTrigger.TriggerEntered += OnTriggerEntered;
@@ -64,5 +67,10 @@ public class GameplayBoard : MonoBehaviour
     {
         gameObject.SetActive(false);
         Restart();
+    }
+
+    private void OnShredderEntered()
+    {
+        BoardFinished?.Invoke(this, false);
     }
 }

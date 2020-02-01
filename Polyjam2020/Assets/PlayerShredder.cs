@@ -3,12 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TargetTrigger : MonoBehaviour
+public class PlayerShredder : MonoBehaviour
 {
-    public static Action<TargetTrigger> TriggerEntered;
-
+    public Action ShredderEntered;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        TriggerEntered?.Invoke(this);
+        ShredderEntered?.Invoke();
     }
 }
