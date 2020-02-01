@@ -502,16 +502,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sequences:
-  - StartingBoard: 1
+  - StartingBoardType: 0
     RequiredScore: 5
+    Player1Board: {fileID: 0}
+    Player2Board: {fileID: 0}
+    StartingBoard: {fileID: 0}
+    OtherBoard: {fileID: 0}
     Success: 0
-  - StartingBoard: 0
+  - StartingBoardType: 0
     RequiredScore: 10
+    Player1Board: {fileID: 0}
+    Player2Board: {fileID: 0}
+    StartingBoard: {fileID: 0}
+    OtherBoard: {fileID: 0}
     Success: 0
-  - StartingBoard: 1
+  - StartingBoardType: 0
     RequiredScore: 15
+    Player1Board: {fileID: 0}
+    Player2Board: {fileID: 0}
+    StartingBoard: {fileID: 0}
+    OtherBoard: {fileID: 0}
     Success: 0
-  StartingSequenceIndex: 0
+  StartingSequenceIndex: 1
   SequenceScoreText: {fileID: 2083081601}
   GameOverText: {fileID: 736461158}
   _targetSprites:

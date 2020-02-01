@@ -15,13 +15,13 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _startButton.interactable = false;
         _startButton.onClick.AddListener(StartGame);
         StartCoroutine(LoadScenesCoroutine());
     }
 
     private IEnumerator LoadScenesCoroutine()
     {
-        _startButton.interactable = false;
         yield return StartCoroutine(LoadSceneCoroutine("GameplayMainScene"));
         yield return StartCoroutine(LoadSceneCoroutine("GameplayBoardScene"));
 

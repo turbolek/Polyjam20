@@ -32,11 +32,8 @@ public class PlayerController : MonoBehaviour
             x = 1f;
         }
 
-        //_rigidbody2d.AddForce(Vector2.right * x * Time.deltaTime * Acceleration);
         _rigidbody2d.velocity += (Vector2.right * x * Time.deltaTime * Acceleration);
         _rigidbody2d.velocity = new Vector2(Mathf.Clamp(_rigidbody2d.velocity.x, -MaxSpeed, MaxSpeed), _rigidbody2d.velocity.y);
-
-        Debug.Log("Velocity: " + _rigidbody2d.velocity.magnitude);
     }
 
     public void SetSprite(Sprite sprite, Color color)

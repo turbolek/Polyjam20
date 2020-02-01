@@ -52,20 +52,24 @@ public class GameplayManager : MonoBehaviour
 
         if (sequence.Success)
         {
+            Debug.Log("Sequence " + sequence.RequiredScore.ToString() + " won.");
             yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.StartingBoard, "Nice sentence"));
             yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.OtherBoard, "Nice answer"));
             sequenceToPlay = GetNextSequence();
         }
         else
         {
+            Debug.Log("Sequence " + sequence.RequiredScore.ToString() + " lost.");
             yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.StartingBoard, "Mean sentence"));
             yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.OtherBoard, "Mean answer"));
             sequenceToPlay = GetPreviousSequence();
         }
 
-        if (sequenceToPlay != null)
+        _currentSequence = sequenceToPlay;
+
+        if (_currentSequence != null)
         {
-            sequenceToPlay.Start(OnGameplaySequenceFinished);
+            _currentSequence.Start(OnGameplaySequenceFinished);
         }
         else
         {

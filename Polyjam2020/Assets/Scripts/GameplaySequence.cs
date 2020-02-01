@@ -37,9 +37,14 @@ public class GameplaySequence
         _currentScore = 0;
         _onFinish = onFinish;
         SetBoards();
+
+        Player1Board.DisplayText("");
+        Player2Board.DisplayText("");
+
         StartingBoard.Activate(null);
         GameplayBoard.BoardFinished += OnBoardFinished;
         _sequenceScoreText.text = _currentScore.ToString();
+        Debug.Log("Starting sequence " + RequiredScore.ToString());
     }
 
     private void SetBoards()
@@ -65,6 +70,8 @@ public class GameplaySequence
 
     private void OnBoardFinished(GameplayBoard board, TargetTrigger trigger, bool success)
     {
+        SwitchBoards(board, trigger);
+
         if (success)
         {
             _sequenceScoreText.text = _currentScore.ToString();
@@ -76,7 +83,6 @@ public class GameplaySequence
             Finish(false);
         }
 
-        SwitchBoards(board, trigger);
     }
 
     private void CheckWin()
@@ -105,6 +111,9 @@ public class GameplaySequence
     {
         Success = success;
         GameplayBoard.BoardFinished -= OnBoardFinished;
+        Player1Board.Deactivate();
+        Player2Board.Deactivate();
         _onFinish.Invoke(this);
+
     }
 }
