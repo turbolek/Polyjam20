@@ -147,7 +147,7 @@ public class GameplayManager : MonoBehaviour
 
     private LegsController GetLowestProgressPlayer()
     {
-        if (_player1LegsController.Progress >= _player2LegsController.Progress)
+        if (_player1LegsController.Progress <= _player2LegsController.Progress)
         {
             return _player1LegsController;
         }
