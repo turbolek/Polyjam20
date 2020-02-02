@@ -914,7 +914,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CorrectAnswer: {fileID: 8300000, guid: ba69e4d271aafb444bacbb3abdaaeb05, type: 3}
   WrongAnswer: {fileID: 8300000, guid: a94bbbf66ccef4f449bb9a509d8e4f98, type: 3}
-  Player1Positive: {fileID: 8300000, guid: 2d5a3e89b8a283e4d83779508de611b7, type: 3}
+  Player1Positive: {fileID: 8300000, guid: 8c6d961c64bf2264b88cce61d3729f02, type: 3}
   Player1Negative: {fileID: 8300000, guid: e29eef8592c491a4ebb88f8d10c97cbe, type: 3}
   Player2Positive: {fileID: 8300000, guid: 2d5a3e89b8a283e4d83779508de611b7, type: 3}
   Player2Negative: {fileID: 8300000, guid: 8ee71f18dfdeea148b88b1db917584c0, type: 3}
@@ -1157,8 +1157,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: e676efc2f8b004f489b5f07413258cb0, type: 3}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
