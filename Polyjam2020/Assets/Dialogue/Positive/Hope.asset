@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77253076b0b40fe4581232a9e79d9513, type: 3}
   m_Name: Hope
   m_EditorClassIdentifier: 
-  Sentence: 
-  Answer: 
+  Sentence: I had hope to see one another again.
+  Answer: There is always hope. It's nice to talk to you again.

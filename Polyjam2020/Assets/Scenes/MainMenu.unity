@@ -10123,7 +10123,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0.000030517, y: 178.1}
+  m_AnchoredPosition: {x: 0.000030517, y: 212}
   m_SizeDelta: {x: 1120.6, y: 456.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &485232610
@@ -15179,8 +15179,8 @@ MonoBehaviour:
   WrongAnswer: {fileID: 8300000, guid: a94bbbf66ccef4f449bb9a509d8e4f98, type: 3}
   Player1Positive: {fileID: 8300000, guid: 8c6d961c64bf2264b88cce61d3729f02, type: 3}
   Player1Negative: {fileID: 8300000, guid: e29eef8592c491a4ebb88f8d10c97cbe, type: 3}
-  Player2Positive: {fileID: 8300000, guid: 2d5a3e89b8a283e4d83779508de611b7, type: 3}
-  Player2Negative: {fileID: 8300000, guid: 8ee71f18dfdeea148b88b1db917584c0, type: 3}
+  Player2Positive: {fileID: 8300000, guid: eac0f9afa66f4f64587eea62d309a846, type: 3}
+  Player2Negative: {fileID: 8300000, guid: d9762ae28db00fd48aabcb9569f73d55, type: 3}
   StepBackward: {fileID: 8300000, guid: b3986859733792b488e454658d6f1902, type: 3}
   GameWonClip: {fileID: 8300000, guid: c981ad3ea234594428e4267bb282d89a, type: 3}
   MusicAudioSource: {fileID: 2058511292}
@@ -20540,7 +20540,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Unfortunately, this will part us for some time.
+  m_Text: 'Unfortunately, this will part us for some time.
+
+    But we can try again...'
 --- !u!222 &1535354198
 CanvasRenderer:
   m_ObjectHideFlags: 0

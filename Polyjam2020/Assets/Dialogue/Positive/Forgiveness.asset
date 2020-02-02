@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77253076b0b40fe4581232a9e79d9513, type: 3}
   m_Name: Forgiveness
   m_EditorClassIdentifier: 
-  Sentence: 
-  Answer: 
+  Sentence: Leaving was the worst think I could have done. I ask for forgiveness.
+  Answer: Don't  blame yourself. I'll be there for you.
