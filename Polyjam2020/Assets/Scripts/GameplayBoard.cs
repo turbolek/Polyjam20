@@ -18,6 +18,8 @@ public class GameplayBoard : MonoBehaviour
     [SerializeField]
     private Transform _playerSpawnPoint;
 
+    private Animator _animator;
+
     private PlayerController _player;
     private TargetTrigger[] _triggers;
     private PlayerShredder _shredder;
@@ -33,6 +35,7 @@ public class GameplayBoard : MonoBehaviour
 
     public void Init(Sprite[] targetSprites, Color[] targetColors, LegsController legsController)
     {
+        _animator = GetComponent<Animator>();
         _targetSprites = targetSprites;
         _targetColors = targetColors;
         Legs = legsController;

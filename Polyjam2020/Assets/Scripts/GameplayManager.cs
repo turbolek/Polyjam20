@@ -18,6 +18,11 @@ public class GameplayManager : MonoBehaviour
     public Text GameOverText;
 
     [SerializeField]
+    private Bubble _player1Bubble;
+    [SerializeField]
+    private Bubble _player2Bubble;
+
+    [SerializeField]
     private LegsController _player1LegsController;
     [SerializeField]
     private LegsController _player2LegsController;
@@ -46,19 +51,30 @@ public class GameplayManager : MonoBehaviour
             sequence.Init(_player1Board, _player2Board, ScoreDisplayer);
         }
 
+        _player1Bubble.Init();
+        _player2Bubble.Init();
+
         _player1LegsController.Init();
         _player2LegsController.Init();
     }
 
     public void StartGame()
     {
+        StartCoroutine(StartGameCoroutine());
+    }
+
+    private IEnumerator StartGameCoroutine()
+    {
+        _player1Bubble.Show();
+        yield return new WaitForSeconds(0.25f);
+        _player2Bubble.Show();
+        yield return new WaitForSeconds(1f);
         _currentSequence.Start(OnGameplaySequenceFinished);
     }
 
     private void OnGameplaySequenceFinished(GameplaySequence sequence)
     {
         StartCoroutine(SequenceEndCoroutine(sequence));
-
     }
 
     private List<Dialogue> GetRandomizedCopy(List<Dialogue> originalList)
@@ -172,6 +188,7 @@ public class GameplayManager : MonoBehaviour
             LoseGame();
         }
     }
+
 
     private void WinGame()
     {
