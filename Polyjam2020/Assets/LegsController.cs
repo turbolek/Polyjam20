@@ -20,9 +20,13 @@ public class LegsController : MonoBehaviour
         _animatorController = GetComponent<Animator>();
     }
 
-    public void StepToPosition(bool forward)
+    public void StepToPosition(bool forward, bool fakeStep)
     {
-        Progress += forward ? 1 : -1;
+        if (!fakeStep)
+        {
+            Progress += forward ? 1 : -1;
+        }
+
         StartCoroutine(StepCoroutine(forward));
     }
 

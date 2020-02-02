@@ -7,6 +7,9 @@ using UnityEngine.UI;
 public class GameplayBoard : MonoBehaviour
 {
     [SerializeField]
+    private PlayerController.ControlScheme _controlScheme;
+
+    [SerializeField]
     private Text _dialogueText;
     [SerializeField]
     private GameObject _gameplayParent;
@@ -14,6 +17,8 @@ public class GameplayBoard : MonoBehaviour
     private GameObject _playerPrefab;
     [SerializeField]
     private Transform _playerSpawnPoint;
+
+    private Animator _animator;
 
     private PlayerController _player;
     private TargetTrigger[] _triggers;
@@ -30,6 +35,7 @@ public class GameplayBoard : MonoBehaviour
 
     public void Init(Sprite[] targetSprites, Color[] targetColors, LegsController legsController)
     {
+        _animator = GetComponent<Animator>();
         _targetSprites = targetSprites;
         _targetColors = targetColors;
         Legs = legsController;
@@ -41,7 +47,7 @@ public class GameplayBoard : MonoBehaviour
         _shredder.ShredderEntered += OnShredderEntered;
 
         _player = playerGameObject.GetComponent<PlayerController>();
-        _player.Init();
+        _player.Init(_controlScheme);
 
         _triggers = GetComponentsInChildren<TargetTrigger>();
 
@@ -79,7 +85,12 @@ public class GameplayBoard : MonoBehaviour
         return false;
     }
 
-    public void Restart(TargetTrigger previousTrigger)
+    public void Restart(TargetTrigger previousTrigger, bool instant)
+    {
+        StartCoroutine(RestartCoroutine(previousTrigger, instant));
+    }
+
+    private IEnumerator RestartCoroutine(TargetTrigger previousTrigger, bool instant)
     {
         List<TargetTrigger> triggersToSet = new List<TargetTrigger>(_triggers).Shuffle();
         List<Sprite> availableSprites = new List<Sprite>(_targetSprites).Shuffle();
@@ -134,21 +145,29 @@ public class GameplayBoard : MonoBehaviour
             availableSprites.RemoveAt(i);
         }
 
+        ShowGameplayParent(true);
+
+        if (!instant)
+        {
+            _animator.SetTrigger("show");
+            yield return new WaitForSeconds(1f);
+        }
+
         _player.ResetSpeed();
         _player.transform.position = _playerSpawnPoint.position;
-        ShowGameplayParent(true);
+        _player.Release();
         DisplayText("");
     }
 
-    public void Activate(Sprite sprite, Color color)
+    public void Activate(Sprite sprite, Color color, bool instant)
     {
-        Activate(null);
+        Activate(null, instant);
         _player.SetSprite(sprite, color);
     }
 
-    public void Activate(TargetTrigger previousTrigger)
+    public void Activate(TargetTrigger previousTrigger, bool instant)
     {
-        Restart(previousTrigger);
+        Restart(previousTrigger, instant);
         gameObject.SetActive(true);
     }
 
@@ -156,6 +175,7 @@ public class GameplayBoard : MonoBehaviour
     public void Deactivate()
     {
         ShowGameplayParent(false);
+        _player.Halt();
     }
 
     private void OnShredderEntered()

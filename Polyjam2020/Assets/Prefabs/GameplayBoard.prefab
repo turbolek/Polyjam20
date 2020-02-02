@@ -130,7 +130,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 323287486459969010}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 8, z: 0}
+  m_LocalPosition: {x: 0, y: 11.31, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6917949535309332522}
@@ -270,6 +270,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1533891632974526276}
   - component: {fileID: 1533891632974526277}
+  - component: {fileID: 3790196286314225383}
   m_Layer: 8
   m_Name: GameplayBoard
   m_TagString: Player1Board
@@ -306,12 +307,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91922310ef0d1814db385200435d170c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _controlScheme: 0
   _dialogueText: {fileID: 7517136666400089733}
   _gameplayParent: {fileID: 2203622759604044698}
   _playerPrefab: {fileID: 4806864809150296934, guid: a8d54dcd8b51374498e3e0d35d65e61f,
     type: 3}
   _playerSpawnPoint: {fileID: 8723799709112991713}
   Legs: {fileID: 0}
+--- !u!95 &3790196286314225383
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533891632974526274}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 203ee88a253afd5438872f843a2f0b68, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2203622759604044698
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,7 +445,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Sample dialogue line
+  m_Text: 
 --- !u!1 &7926974755303217944
 GameObject:
   m_ObjectHideFlags: 0

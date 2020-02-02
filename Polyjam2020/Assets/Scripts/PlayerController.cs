@@ -10,11 +10,21 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
     private Sprite _originalSprite;
 
-    public void Init()
+    public enum ControlScheme
     {
+        Arrows = 0,
+        AD = 1
+    }
+
+    private ControlScheme _controlScheme;
+
+    public void Init(ControlScheme controlScheme)
+    {
+        _controlScheme = controlScheme;
         _rigidbody2d = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _originalSprite = _spriteRenderer.sprite;
+        Halt();
     }
 
     // Update is called once per frame
@@ -22,18 +32,28 @@ public class PlayerController : MonoBehaviour
     {
         float x = 0f;
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (GetLeftKey())
         {
             x = -1f;
         }
 
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (GetRightKey())
         {
             x = 1f;
         }
 
         _rigidbody2d.velocity += (Vector2.right * x * Time.deltaTime * Acceleration);
         _rigidbody2d.velocity = new Vector2(Mathf.Clamp(_rigidbody2d.velocity.x, -MaxSpeed, MaxSpeed), _rigidbody2d.velocity.y);
+    }
+
+    private bool GetLeftKey()
+    {
+        return _controlScheme == ControlScheme.Arrows ? Input.GetKey(KeyCode.LeftArrow) : Input.GetKey(KeyCode.A);
+    }
+
+    private bool GetRightKey()
+    {
+        return _controlScheme == ControlScheme.Arrows ? Input.GetKey(KeyCode.RightArrow) : Input.GetKey(KeyCode.D);
     }
 
     public void SetSprite(Sprite sprite, Color color)
@@ -53,5 +73,15 @@ public class PlayerController : MonoBehaviour
     public void ResetSpeed()
     {
         _rigidbody2d.velocity = Vector2.zero;
+    }
+
+    public void Halt()
+    {
+        _rigidbody2d.simulated = false;
+    }
+
+    public void Release()
+    {
+        _rigidbody2d.simulated = true;
     }
 }
