@@ -611,6 +611,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mainMenuCanvasGroup: {fileID: 976617249}
   _startButton: {fileID: 1861203285}
+  _quitButton: {fileID: 434134157}
   _audioManager: {fileID: 961921057}
 --- !u!4 &824660199
 Transform:

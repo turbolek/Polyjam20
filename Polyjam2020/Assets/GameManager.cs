@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private Button _startButton;
+    [SerializeField]
+    private Button _quitButton;
     private GameplayManager _gameplayManager;
     [SerializeField]
     private AudioManager _audioManager;
@@ -20,6 +22,7 @@ public class GameManager : MonoBehaviour
     {
         _startButton.interactable = false;
         _startButton.onClick.AddListener(StartGame);
+        _quitButton.onClick.AddListener(Application.Quit);
         _audioManager.Init();
         StartCoroutine(LoadScenesCoroutine());
     }
