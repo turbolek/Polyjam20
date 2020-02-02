@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
         _rigidbody2d = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _originalSprite = _spriteRenderer.sprite;
+        Halt();
     }
 
     // Update is called once per frame
@@ -72,5 +73,15 @@ public class PlayerController : MonoBehaviour
     public void ResetSpeed()
     {
         _rigidbody2d.velocity = Vector2.zero;
+    }
+
+    public void Halt()
+    {
+        _rigidbody2d.simulated = false;
+    }
+
+    public void Release()
+    {
+        _rigidbody2d.simulated = true;
     }
 }

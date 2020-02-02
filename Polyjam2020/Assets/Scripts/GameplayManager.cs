@@ -70,7 +70,7 @@ public class GameplayManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         _player1Bubble.Show();
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(1f);
         _player2Bubble.Show();
         yield return new WaitForSeconds(1f);
         _currentSequence.Start(OnGameplaySequenceFinished);

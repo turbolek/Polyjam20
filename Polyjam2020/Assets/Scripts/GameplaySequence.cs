@@ -40,7 +40,7 @@ public class GameplaySequence
 
         StartingBoard.DisplayText("");
         OtherBoard.DisplayText("");
-        StartingBoard.Activate(null);
+        StartingBoard.Activate(null, false);
         GameplayBoard.BoardFinished += OnBoardFinished;
         _scoreDisplayer.ResetDisplayer();
         Debug.Log("Starting sequence " + RequiredScore.ToString());
@@ -84,12 +84,12 @@ public class GameplaySequence
         if (finishedBoard == StartingBoard)
         {
             StartingBoard.Deactivate();
-            OtherBoard.Activate(trigger);
+            OtherBoard.Activate(trigger, true);
         }
         else
         {
             OtherBoard.Deactivate();
-            StartingBoard.Activate(trigger);
+            StartingBoard.Activate(trigger, true);
         }
     }
 
