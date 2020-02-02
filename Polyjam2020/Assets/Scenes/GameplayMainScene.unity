@@ -655,25 +655,25 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3c8a46a2cdb218649902f8ea98f5ebd9, type: 2}
   - {fileID: 11400000, guid: 164cac177c4c18c48a6b0ebbeaa3a854, type: 2}
   Sequences:
-  - RequiredScore: 5
+  - RequiredScore: 1
     Player1Legs: {fileID: 0}
     Player2Legs: {fileID: 0}
     StartingBoard: {fileID: 0}
     OtherBoard: {fileID: 0}
     Success: 0
-  - RequiredScore: 10
+  - RequiredScore: 1
     Player1Legs: {fileID: 0}
     Player2Legs: {fileID: 0}
     StartingBoard: {fileID: 0}
     OtherBoard: {fileID: 0}
     Success: 0
-  - RequiredScore: 15
+  - RequiredScore: 1
     Player1Legs: {fileID: 0}
     Player2Legs: {fileID: 0}
     StartingBoard: {fileID: 0}
     OtherBoard: {fileID: 0}
     Success: 0
-  - RequiredScore: 20
+  - RequiredScore: 1
     Player1Legs: {fileID: 0}
     Player2Legs: {fileID: 0}
     StartingBoard: {fileID: 0}

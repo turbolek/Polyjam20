@@ -140,10 +140,10 @@ public class GameplayManager : MonoBehaviour
     private GameplaySequence GetNextSequence()
     {
         LegsController lowestProgressLegsController = GetLowestProgressPlayer();
-        int newIndex = lowestProgressLegsController.Progress - 1;
-        if (newIndex >= 0 && newIndex < Sequences.Count)
+        int newIndex = lowestProgressLegsController.Progress;
+        if (newIndex > 0 && newIndex < Sequences.Count)
         {
-            return Sequences[lowestProgressLegsController.Progress - 1];
+            return Sequences[newIndex];
         }
         return null;
     }
