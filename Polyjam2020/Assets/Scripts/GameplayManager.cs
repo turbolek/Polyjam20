@@ -206,6 +206,16 @@ public class GameplayManager : MonoBehaviour
 
     private void WinGame()
     {
+        StartCoroutine(WinGameCoroutine());
+    }
+
+    private IEnumerator WinGameCoroutine()
+    {
+        _player1Bubble.Hide();
+        _player2Bubble.Hide();
+
+        yield return new WaitForSeconds(2f);
+
         _onGameWon.Invoke();
     }
 
@@ -249,5 +259,11 @@ public class GameplayManager : MonoBehaviour
         {
             return _player2LegsController;
         }
+    }
+
+    public void ResetLegs()
+    {
+        _player1LegsController.ResetPosition();
+        _player2LegsController.ResetPosition();
     }
 }

@@ -17,9 +17,17 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private AudioManager _audioManager;
 
+    [SerializeField]
+    private Text _gameOverText;
+
+    [SerializeField]
+    private Text _gameWonText;
+
     // Start is called before the first frame update
     void Start()
     {
+        _gameOverText.enabled = false;
+        _gameWonText.enabled = false;
         _startButton.interactable = false;
         _startButton.onClick.AddListener(StartGame);
         _quitButton.onClick.AddListener(Application.Quit);
@@ -50,12 +58,29 @@ public class GameManager : MonoBehaviour
 
     private void OnGameLost()
     {
+        _gameOverText.enabled = true;
+        _gameWonText.enabled = false;
         ShowMenu();
     }
 
     private void OnGameWon()
     {
+        StartCoroutine(OnGameWonCoroutine());
+    }
 
+    private IEnumerator OnGameWonCoroutine()
+    {
+        _gameOverText.enabled = false;
+        yield return new WaitForSeconds(3f);
+        _gameWonText.enabled = true;
+        while (!Input.anyKeyDown)
+        {
+            yield return null;
+        }
+
+        _gameWonText.enabled = false;
+        _gameplayManager.ResetLegs();
+        ShowMenu();
     }
 
     private void HideMenu()
@@ -66,7 +91,6 @@ public class GameManager : MonoBehaviour
 
     private void ShowMenu()
     {
-
         _mainMenuCanvasGroup.alpha = 1f;
     }
 }
