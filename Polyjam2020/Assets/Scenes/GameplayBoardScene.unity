@@ -275,5 +275,10 @@ PrefabInstance:
       propertyPath: _controlScheme
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1533891632974526277, guid: d15a833660db6d14f9018f5aa1f140aa,
+        type: 3}
+      propertyPath: IsPlayerOne
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15a833660db6d14f9018f5aa1f140aa, type: 3}

@@ -38,8 +38,8 @@ public class GameplaySequence
         _currentScore = 0;
         _onFinish = onFinish;
 
-        StartingBoard.DisplayText("");
-        OtherBoard.DisplayText("");
+        StartingBoard.DisplayText("", true);
+        OtherBoard.DisplayText("", true);
         StartingBoard.Activate(null, false);
         GameplayBoard.BoardFinished += OnBoardFinished;
         _scoreDisplayer.ResetDisplayer();

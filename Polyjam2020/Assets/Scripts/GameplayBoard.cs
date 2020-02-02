@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class GameplayBoard : MonoBehaviour
 {
+    public static Action<GameplayBoard, bool> DialogueDisplayed;
+    public bool IsPlayerOne;
+
     [SerializeField]
     private PlayerController.ControlScheme _controlScheme;
 
@@ -156,7 +159,7 @@ public class GameplayBoard : MonoBehaviour
         _player.ResetSpeed();
         _player.transform.position = _playerSpawnPoint.position;
         _player.Release();
-        DisplayText("");
+        DisplayText("", true);
     }
 
     public void Activate(Sprite sprite, Color color, bool instant)
@@ -213,9 +216,14 @@ public class GameplayBoard : MonoBehaviour
         return null;
     }
 
-    public void DisplayText(string text)
+    public void DisplayText(string text, bool positive)
     {
         _dialogueText.text = text;
+
+        if (text != "")
+        {
+            DialogueDisplayed?.Invoke(this, positive);
+        }
     }
 
     private void ShowGameplayParent(bool show)
