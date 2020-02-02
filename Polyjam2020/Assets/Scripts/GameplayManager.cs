@@ -18,7 +18,6 @@ public class GameplayManager : MonoBehaviour
     private GameplaySequence _currentSequence;
 
     public ScoreDisplayer ScoreDisplayer;
-    public Text GameOverText;
 
     [SerializeField]
     private Bubble _player1Bubble;
@@ -43,8 +42,6 @@ public class GameplayManager : MonoBehaviour
 
     public void Init()
     {
-        GameOverText.enabled = false;
-
         InitGameplayBoards();
 
         ScoreDisplayer.Init();

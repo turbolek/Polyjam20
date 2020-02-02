@@ -307,6 +307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91922310ef0d1814db385200435d170c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsPlayerOne: 0
   _controlScheme: 0
   _dialogueText: {fileID: 7517136666400089733}
   _gameplayParent: {fileID: 2203622759604044698}
@@ -436,7 +437,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 51bb7bb436f508d43af4907b331016db, type: 3}
     m_FontSize: 300
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 1
     m_MaxSize: 300
     m_Alignment: 4
