@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GameplayManager : MonoBehaviour
 {
@@ -35,7 +36,8 @@ public class GameplayManager : MonoBehaviour
     [SerializeField]
     private Color[] _targetColors;
 
-
+    private Action _onGameLost;
+    private Action _onGameWon;
 
     public void Init()
     {
@@ -43,7 +45,6 @@ public class GameplayManager : MonoBehaviour
 
         InitGameplayBoards();
 
-        _currentSequence = GetNextSequence();
         ScoreDisplayer.Init();
 
         foreach (GameplaySequence sequence in Sequences)
@@ -58,8 +59,17 @@ public class GameplayManager : MonoBehaviour
         _player2LegsController.Init();
     }
 
-    public void StartGame()
+    public void StartGame(Action onGameLost, Action onGameWon)
     {
+        _player1LegsController.ResetProgress();
+        _player2LegsController.ResetProgress();
+
+        _player1Board.DisplayText("");
+        _player2Board.DisplayText("");
+
+        _currentSequence = GetNextSequence();
+        _onGameLost = onGameLost;
+        _onGameWon = onGameWon;
         StartCoroutine(StartGameCoroutine());
     }
 
@@ -196,14 +206,25 @@ public class GameplayManager : MonoBehaviour
 
     private void WinGame()
     {
-        GameOverText.enabled = true;
-        GameOverText.text = "Good to be back together :)";
+        _onGameWon.Invoke();
     }
 
     private void LoseGame()
     {
-        GameOverText.enabled = true;
-        GameOverText.text = "We'll never talk to each other again :(";
+        StartCoroutine(LoseGameCoroutine());
+    }
+
+    private IEnumerator LoseGameCoroutine()
+    {
+        _player2LegsController.Progress = 0;
+        _player2LegsController.StepToPosition(false, true);
+
+        _player1Bubble.Hide();
+        _player2Bubble.Hide();
+
+        yield return new WaitForSeconds(2f);
+
+        _onGameLost.Invoke();
     }
 
     private LegsController GetLowestProgressPlayer()

@@ -41,10 +41,32 @@ public class GameManager : MonoBehaviour
 
     private void StartGame()
     {
-        _mainMenuCanvasGroup.alpha = 0f;
         if (_gameplayManager != null)
         {
-            _gameplayManager.StartGame();
+            _gameplayManager.StartGame(OnGameLost, OnGameWon);
+            HideMenu();
         }
+    }
+
+    private void OnGameLost()
+    {
+        ShowMenu();
+    }
+
+    private void OnGameWon()
+    {
+
+    }
+
+    private void HideMenu()
+    {
+
+        _mainMenuCanvasGroup.alpha = 0f;
+    }
+
+    private void ShowMenu()
+    {
+
+        _mainMenuCanvasGroup.alpha = 1f;
     }
 }

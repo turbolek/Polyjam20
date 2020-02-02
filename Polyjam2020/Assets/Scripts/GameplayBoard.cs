@@ -175,6 +175,7 @@ public class GameplayBoard : MonoBehaviour
     public void Deactivate()
     {
         ShowGameplayParent(false);
+        _player.transform.position = _playerSpawnPoint.position;
         _player.Halt();
     }
 

@@ -10,6 +10,7 @@ public class LegsController : MonoBehaviour
     public Transform[] progressPositions;
 
     public int Progress = 1;
+    private int _originalProgress;
     public float StepAnimationTime = 1f;
     private Animator _animatorController;
 
@@ -18,6 +19,7 @@ public class LegsController : MonoBehaviour
     public void Init()
     {
         _animatorController = GetComponent<Animator>();
+        _originalProgress = Progress;
     }
 
     public void StepToPosition(bool forward, bool fakeStep)
@@ -50,5 +52,10 @@ public class LegsController : MonoBehaviour
         }
         transform.position = new Vector2(xPosition, transform.position.y);
         IsMoving = false;
+    }
+
+    public void ResetProgress()
+    {
+        Progress = _originalProgress;
     }
 }
