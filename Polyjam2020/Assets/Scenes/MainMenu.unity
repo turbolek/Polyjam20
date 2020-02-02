@@ -914,7 +914,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CorrectAnswer: {fileID: 8300000, guid: ba69e4d271aafb444bacbb3abdaaeb05, type: 3}
   WrongAnswer: {fileID: 8300000, guid: a94bbbf66ccef4f449bb9a509d8e4f98, type: 3}
-  StepForward: {fileID: 8300000, guid: 2d5a3e89b8a283e4d83779508de611b7, type: 3}
+  Player1Positive: {fileID: 8300000, guid: 2d5a3e89b8a283e4d83779508de611b7, type: 3}
+  Player1Negative: {fileID: 8300000, guid: e29eef8592c491a4ebb88f8d10c97cbe, type: 3}
+  Player2Positive: {fileID: 8300000, guid: 2d5a3e89b8a283e4d83779508de611b7, type: 3}
+  Player2Negative: {fileID: 8300000, guid: 8ee71f18dfdeea148b88b1db917584c0, type: 3}
   StepBackward: {fileID: 8300000, guid: b3986859733792b488e454658d6f1902, type: 3}
   GameWonClip: {fileID: 8300000, guid: c981ad3ea234594428e4267bb282d89a, type: 3}
   MusicAudioSource: {fileID: 2058511292}
@@ -1675,7 +1678,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Mateusz Soli\u0144ski"
+  m_Text: Mateusz Solinski
 --- !u!222 &1947577372
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -66,8 +66,8 @@ public class GameplayManager : MonoBehaviour
         _player1LegsController.ResetProgress();
         _player2LegsController.ResetProgress();
 
-        _player1Board.DisplayText("");
-        _player2Board.DisplayText("");
+        _player1Board.DisplayText("", true);
+        _player2Board.DisplayText("", true);
 
         _currentSequence = GetNextSequence();
         _onGameLost = onGameLost;
@@ -131,15 +131,15 @@ public class GameplayManager : MonoBehaviour
         {
             Debug.Log("Sequence " + sequence.RequiredScore.ToString() + " won.");
             Dialogue dialogue = GetRandomPositiveDialogue();
-            yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.StartingBoard, dialogue.Sentence));
-            yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.OtherBoard, dialogue.Answer));
+            yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.StartingBoard, dialogue.Sentence, true));
+            yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.OtherBoard, dialogue.Answer, true));
         }
         else
         {
             Debug.Log("Sequence " + sequence.RequiredScore.ToString() + " lost.");
             Dialogue dialogue = GetRandomNegativeDialogue();
-            yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.StartingBoard, dialogue.Sentence));
-            yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.OtherBoard, dialogue.Answer));
+            yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.StartingBoard, dialogue.Sentence, false));
+            yield return StartCoroutine(DisplayBoardTextCoroutine(sequence.OtherBoard, dialogue.Answer, false));
         }
 
 
@@ -164,9 +164,9 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
-    private IEnumerator DisplayBoardTextCoroutine(GameplayBoard board, string text)
+    private IEnumerator DisplayBoardTextCoroutine(GameplayBoard board, string text, bool positive)
     {
-        board.DisplayText(text);
+        board.DisplayText(text, positive);
         yield return new WaitForSeconds(2f);
     }
 
