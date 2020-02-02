@@ -8,15 +8,19 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField]
     private CanvasGroup _mainMenuCanvasGroup;
+
     [SerializeField]
     private Button _startButton;
     private GameplayManager _gameplayManager;
+    [SerializeField]
+    private AudioManager _audioManager;
 
     // Start is called before the first frame update
     void Start()
     {
         _startButton.interactable = false;
         _startButton.onClick.AddListener(StartGame);
+        _audioManager.Init();
         StartCoroutine(LoadScenesCoroutine());
     }
 

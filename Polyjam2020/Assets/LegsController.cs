@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class LegsController : MonoBehaviour
 {
+    public static Action<LegsController, bool> LegsMoved;
+
     public Transform[] progressPositions;
 
     public int Progress = 1;
@@ -25,6 +28,8 @@ public class LegsController : MonoBehaviour
 
     private IEnumerator StepCoroutine(bool forward)
     {
+        LegsMoved?.Invoke(this, forward);
+
         string trigger = forward ? "forward" : "backward";
         _animatorController.SetTrigger(trigger);
         IsMoving = true;
