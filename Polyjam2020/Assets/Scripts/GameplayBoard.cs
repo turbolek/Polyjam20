@@ -7,6 +7,9 @@ using UnityEngine.UI;
 public class GameplayBoard : MonoBehaviour
 {
     [SerializeField]
+    private PlayerController.ControlScheme _controlScheme;
+
+    [SerializeField]
     private Text _dialogueText;
     [SerializeField]
     private GameObject _gameplayParent;
@@ -41,7 +44,7 @@ public class GameplayBoard : MonoBehaviour
         _shredder.ShredderEntered += OnShredderEntered;
 
         _player = playerGameObject.GetComponent<PlayerController>();
-        _player.Init();
+        _player.Init(_controlScheme);
 
         _triggers = GetComponentsInChildren<TargetTrigger>();
 
