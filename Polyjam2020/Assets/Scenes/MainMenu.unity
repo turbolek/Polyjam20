@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -916,6 +916,7 @@ MonoBehaviour:
   WrongAnswer: {fileID: 8300000, guid: a94bbbf66ccef4f449bb9a509d8e4f98, type: 3}
   StepForward: {fileID: 8300000, guid: 2d5a3e89b8a283e4d83779508de611b7, type: 3}
   StepBackward: {fileID: 8300000, guid: b3986859733792b488e454658d6f1902, type: 3}
+  GameWonClip: {fileID: 8300000, guid: c981ad3ea234594428e4267bb282d89a, type: 3}
   MusicAudioSource: {fileID: 2058511292}
   SFXAudioSource: {fileID: 1132631658}
 --- !u!1 &974909023
@@ -1710,7 +1711,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: e676efc2f8b004f489b5f07413258cb0, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 28f49ecadf7f58d4a8a28c224a27ad70, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1

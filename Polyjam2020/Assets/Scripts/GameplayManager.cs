@@ -7,6 +7,8 @@ using System;
 
 public class GameplayManager : MonoBehaviour
 {
+    public static Action GameWon;
+
     public List<Dialogue> PositiveDialogues;
     private List<Dialogue> PositiveDialoguesCopy = new List<Dialogue>();
     public List<Dialogue> NegativeDialogues;
@@ -213,6 +215,8 @@ public class GameplayManager : MonoBehaviour
     {
         _player1Bubble.Hide();
         _player2Bubble.Hide();
+
+        GameWon?.Invoke();
 
         yield return new WaitForSeconds(2f);
 

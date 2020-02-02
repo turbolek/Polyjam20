@@ -9,6 +9,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip WrongAnswer;
     public AudioClip StepForward;
     public AudioClip StepBackward;
+    public AudioClip GameWonClip;
     [Header("Audio Sources")]
     public AudioSource MusicAudioSource;
     public AudioSource SFXAudioSource;
@@ -17,7 +18,7 @@ public class AudioManager : MonoBehaviour
     {
         GameplayBoard.BoardFinished += OnGameplayBoardFinished;
         LegsController.LegsMoved += OnLegsMoved;
-
+        GameplayManager.GameWon += OnGameWon;
     }
 
     private void OnGameplayBoardFinished(GameplayBoard board, TargetTrigger trigger, bool success)
@@ -42,5 +43,10 @@ public class AudioManager : MonoBehaviour
         {
             SFXAudioSource.PlayOneShot(StepBackward);
         }
+    }
+
+    private void OnGameWon()
+    {
+        SFXAudioSource.PlayOneShot(GameWonClip);
     }
 }
