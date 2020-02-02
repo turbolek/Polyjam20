@@ -9,7 +9,7 @@ public class GameplaySequence
     private Action<GameplaySequence> _onFinish;
     public int RequiredScore;
     private int _currentScore = 0;
-    private Text _sequenceScoreText;
+    private ScoreDisplayer _scoreDisplayer;
 
     [HideInInspector]
     public LegsController Player1Legs;
@@ -40,18 +40,17 @@ public class GameplaySequence
 
         StartingBoard.DisplayText("");
         OtherBoard.DisplayText("");
-
         StartingBoard.Activate(null);
         GameplayBoard.BoardFinished += OnBoardFinished;
-        _sequenceScoreText.text = _currentScore.ToString();
+        _scoreDisplayer.ResetDisplayer();
         Debug.Log("Starting sequence " + RequiredScore.ToString());
     }
 
-    public void Init(GameplayBoard startingBoard, GameplayBoard otherBoard, Text sequenceScoreText)
+    public void Init(GameplayBoard startingBoard, GameplayBoard otherBoard, ScoreDisplayer scoreDisplayer)
     {
         StartingBoard = startingBoard;
         OtherBoard = otherBoard;
-        _sequenceScoreText = sequenceScoreText;
+        _scoreDisplayer = scoreDisplayer;
     }
 
     private void OnBoardFinished(GameplayBoard board, TargetTrigger trigger, bool success)
@@ -61,7 +60,8 @@ public class GameplaySequence
         if (success)
         {
             _currentScore++;
-            _sequenceScoreText.text = _currentScore.ToString();
+            _scoreDisplayer.DisplayScore(_currentScore);
+            
             CheckWin();
         }
         else

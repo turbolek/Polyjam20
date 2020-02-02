@@ -14,7 +14,7 @@ public class GameplayManager : MonoBehaviour
     public List<GameplaySequence> Sequences;
     private GameplaySequence _currentSequence;
 
-    public Text SequenceScoreText;
+    public ScoreDisplayer ScoreDisplayer;
     public Text GameOverText;
 
     [SerializeField]
@@ -39,9 +39,11 @@ public class GameplayManager : MonoBehaviour
         InitGameplayBoards();
 
         _currentSequence = GetNextSequence();
+        ScoreDisplayer.Init();
+
         foreach (GameplaySequence sequence in Sequences)
         {
-            sequence.Init(_player1Board, _player2Board, SequenceScoreText);
+            sequence.Init(_player1Board, _player2Board, ScoreDisplayer);
         }
 
         _player1LegsController.Init();
