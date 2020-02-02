@@ -65,6 +65,10 @@ public class GameplayManager : MonoBehaviour
 
     private IEnumerator StartGameCoroutine()
     {
+        _player1LegsController.StepToPosition(true, true);
+        _player2LegsController.StepToPosition(true, true);
+        yield return new WaitForSeconds(2f);
+
         _player1Bubble.Show();
         yield return new WaitForSeconds(0.25f);
         _player2Bubble.Show();
@@ -129,7 +133,7 @@ public class GameplayManager : MonoBehaviour
 
         LegsController legsToMove = sequence.Success ? GetLowestProgressPlayer() : GetHighestProgressPlayer();
 
-        legsToMove.StepToPosition(sequence.Success);
+        legsToMove.StepToPosition(sequence.Success, false);
 
         while (sequence.Legs.IsMoving)
         {
