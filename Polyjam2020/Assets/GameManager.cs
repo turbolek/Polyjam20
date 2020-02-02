@@ -26,21 +26,14 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator LoadScenesCoroutine()
     {
-        yield return StartCoroutine(LoadSceneCoroutine("GameplayMainScene"));
-        yield return StartCoroutine(LoadSceneCoroutine("GameplayBoardScene"));
+        SceneManager.LoadScene("GameplayMainScene", LoadSceneMode.Additive);
+        SceneManager.LoadScene("GameplayBoardScene", LoadSceneMode.Additive);
+
+        yield return null;
 
         _gameplayManager = FindObjectOfType<GameplayManager>();
         _gameplayManager.Init();
         _startButton.interactable = true;
-    }
-
-    private IEnumerator LoadSceneCoroutine(string sceneName)
-    {
-        AsyncOperation loadingSceneOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        while (!loadingSceneOperation.isDone)
-        {
-            yield return null;
-        }
     }
 
     private void StartGame()

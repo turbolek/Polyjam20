@@ -306,6 +306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91922310ef0d1814db385200435d170c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _controlScheme: 0
   _dialogueText: {fileID: 7517136666400089733}
   _gameplayParent: {fileID: 2203622759604044698}
   _playerPrefab: {fileID: 4806864809150296934, guid: a8d54dcd8b51374498e3e0d35d65e61f,
@@ -424,7 +425,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Sample dialogue line
+  m_Text: 
 --- !u!1 &7926974755303217944
 GameObject:
   m_ObjectHideFlags: 0

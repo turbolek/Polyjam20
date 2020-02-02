@@ -7,6 +7,9 @@ using UnityEngine.UI;
 public class GameplayBoard : MonoBehaviour
 {
     [SerializeField]
+    private PlayerController.ControlScheme _controlScheme;
+
+    [SerializeField]
     private Text _dialogueText;
     [SerializeField]
     private GameObject _gameplayParent;
@@ -14,6 +17,8 @@ public class GameplayBoard : MonoBehaviour
     private GameObject _playerPrefab;
     [SerializeField]
     private Transform _playerSpawnPoint;
+
+    private Animator _animator;
 
     private PlayerController _player;
     private TargetTrigger[] _triggers;
@@ -30,6 +35,7 @@ public class GameplayBoard : MonoBehaviour
 
     public void Init(Sprite[] targetSprites, Color[] targetColors, LegsController legsController)
     {
+        _animator = GetComponent<Animator>();
         _targetSprites = targetSprites;
         _targetColors = targetColors;
         Legs = legsController;
@@ -41,7 +47,7 @@ public class GameplayBoard : MonoBehaviour
         _shredder.ShredderEntered += OnShredderEntered;
 
         _player = playerGameObject.GetComponent<PlayerController>();
-        _player.Init();
+        _player.Init(_controlScheme);
 
         _triggers = GetComponentsInChildren<TargetTrigger>();
 
