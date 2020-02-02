@@ -17,6 +17,7 @@ public class AudioManager : MonoBehaviour
     public AudioSource MusicAudioSource;
     public AudioSource SFXAudioSource;
 
+
     public void Init()
     {
         GameplayBoard.BoardFinished += OnGameplayBoardFinished;
@@ -69,4 +70,5 @@ public class AudioManager : MonoBehaviour
             SFXAudioSource.PlayOneShot(clip);
         }
     }
+
 }

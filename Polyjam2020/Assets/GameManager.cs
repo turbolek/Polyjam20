@@ -23,9 +23,15 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Text _gameWonText;
 
+
+    private ParticleSystem[] _particles;
+
     // Start is called before the first frame update
     void Start()
     {
+        _particles = FindObjectsOfType<ParticleSystem>();
+        StopParticles();
+
         _gameOverText.enabled = false;
         _gameWonText.enabled = false;
         _startButton.interactable = false;
@@ -71,13 +77,14 @@ public class GameManager : MonoBehaviour
     private IEnumerator OnGameWonCoroutine()
     {
         _gameOverText.enabled = false;
+        StartParticles();
         yield return new WaitForSeconds(3f);
         _gameWonText.enabled = true;
         while (!Input.anyKeyDown)
         {
             yield return null;
         }
-
+        StopParticles();
         _gameWonText.enabled = false;
         _gameplayManager.ResetLegs();
         ShowMenu();
@@ -92,5 +99,22 @@ public class GameManager : MonoBehaviour
     private void ShowMenu()
     {
         _mainMenuCanvasGroup.alpha = 1f;
+    }
+
+
+    private void StopParticles()
+    {
+        foreach (ParticleSystem particle in _particles)
+        {
+            particle.Stop();
+        }
+    }
+
+    private void StartParticles()
+    {
+        foreach (ParticleSystem particle in _particles)
+        {
+            particle.Play();
+        }
     }
 }
